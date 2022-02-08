@@ -6,6 +6,8 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
+	kotlin("plugin.noarg") version "1.6.10" // 추가
+	kotlin("plugin.allopen") version "1.6.10" // 추가
 }
 
 group = "com.example"
@@ -25,6 +27,16 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+// 추가 start ---
+noArg {
+	annotation("javax.persistence.Entity")
+}
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
+}
+// 추가 end ---
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
