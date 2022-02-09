@@ -14,11 +14,11 @@ class CompEmpService(
 
     fun saveCompAndEmp(compName: String, empNames: List<String>) {
 
-        var newComp = Company(name = compName)
+        var newComp = Company(compName)
         companyRepository.save(newComp)
 
         empNames.forEach {
-            var newEmp = Employee(name = it, company = newComp)
+            var newEmp = Employee(it, newComp)
             employeeRepository.save(newEmp)
         }
 

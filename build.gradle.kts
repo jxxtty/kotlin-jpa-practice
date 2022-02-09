@@ -6,8 +6,8 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10" // kotlin("plugin.allopen")을 포함하고 있다
 	kotlin("plugin.jpa") version "1.6.10" // kotlin("plugin.noarg")을 포함하고 있다
-	kotlin("plugin.noarg") version "1.6.10"
-	kotlin("plugin.allopen") version "1.6.10"
+//	kotlin("plugin.noarg") version "1.6.10"
+//	kotlin("plugin.allopen") version "1.6.10"
 }
 
 group = "com.example"
