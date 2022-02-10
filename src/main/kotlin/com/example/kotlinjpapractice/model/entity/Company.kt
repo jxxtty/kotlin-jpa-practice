@@ -10,4 +10,6 @@ class Company (
         fun updateCompany(compName: String) {
             this.name = compName
         }
+
+
 }

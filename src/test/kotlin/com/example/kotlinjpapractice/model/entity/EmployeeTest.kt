@@ -16,7 +16,7 @@ class EmployeeTest(val employeeRepository: EmployeeRepository, val companyReposi
 
     @Transactional
     @Test
-    internal fun `findById - lazy loading`() {
+    internal fun findById() {
 
         println("employee 조회 전")
         val employee = employeeRepository.findByIdOrNull(1L)
@@ -24,7 +24,7 @@ class EmployeeTest(val employeeRepository: EmployeeRepository, val companyReposi
         assertEquals(employee!!.name, "one")
 
         println("company 데이터에 접근 전")
-        assertEquals(employee.company!!.name, "company name test")
+        assertEquals(employee.company!!.name, "first")
         println("company 데이터에 접근 후--")
 
     }
