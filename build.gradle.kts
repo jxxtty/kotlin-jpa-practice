@@ -7,13 +7,14 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10" // kotlin("plugin.allopen")을 포함하고 있다
 	kotlin("plugin.jpa") version "1.6.10" // kotlin("plugin.noarg")을 포함하고 있다
-	kotlin("kapt") version "1.3.61" // querydsl 추가
+//	kotlin("kapt") version "1.3.61" // querydsl 추가
+//	idea
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
-val querydslVersion = "4.4.0" // querydsl 추가
+//val querydslVersion = "4.4.0" // querydsl 추가
 
 repositories {
 	mavenCentral()
@@ -27,11 +28,16 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	// querydsl 추가 start ---
-	implementation("com.querydsl:querydsl-jpa:${querydslVersion}")
-	kapt("com.querydsl:querydsl-apt:${querydslVersion}:jpa")
-	kapt("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final")
-	kapt("org.springframework.boot:spring-boot-configuration-processor")
-	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+//	implementation("com.querydsl:querydsl-jpa:${querydslVersion}")
+//	implementation("com.querydsl:querydsl-apt:${querydslVersion}")
+//	kapt("com.querydsl:querydsl-apt:${querydslVersion}:jpa")
+
+//	kapt("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final")
+
+//	kapt("org.springframework.boot:spring-boot-configuration-processor")
+//	compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+//
+//	annotationProcessor("com.querydsl:querydsl-apt:$querydslVersion:jpa")
 	// querydsl 추가 end ---
 
 	runtimeOnly("com.h2database:h2")
@@ -39,9 +45,17 @@ dependencies {
 }
 
 // querydsl 추가 start ---
-kotlin.sourceSets.main {
-	setBuildDir("$buildDir")
-}
+//kotlin.sourceSets.main {
+//	setBuildDir("$buildDir")
+//}
+
+//idea {
+//	module {
+//		val kaptMain = file("build/generated/source/kapt/main")
+//		sourceDirs.add(kaptMain)
+//		generatedSourceDirs.add(kaptMain)
+//	}
+//}
 // querydsl 추가 end ---
 
 // 추가 start ---
