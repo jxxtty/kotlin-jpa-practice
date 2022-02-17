@@ -1,5 +1,6 @@
 package com.example.kotlinjpapractice.service
 
+import com.example.kotlinjpapractice.model.dto.CompEmpRes
 import com.example.kotlinjpapractice.model.entity.Company
 import com.example.kotlinjpapractice.model.entity.Employee
 import com.example.kotlinjpapractice.model.entity.enum.Department
@@ -44,5 +45,17 @@ class CompEmpService(
         employeeRepository.findById(empId).get().let {
             it.changeDepartment(department)
         }
+    }
+
+    fun existCompany(companyName: String): Boolean {
+        return companyRepository.existsCompanyByName(companyName)
+    }
+
+    fun findCompanyByName(companyName: String): Company? {
+        return companyRepository.findByName(companyName)
+    }
+
+    fun findAllCompEmp(compId: Long): List<CompEmpRes> {
+        return companyRepository.findAllCompEmp(compId)
     }
 }

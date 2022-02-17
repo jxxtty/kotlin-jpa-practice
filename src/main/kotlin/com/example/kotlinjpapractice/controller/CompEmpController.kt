@@ -33,4 +33,13 @@ class CompEmpController(val compEmpService: CompEmpService,
         return ResponseEntity.ok().body("change emp ${empDeptReq.empId}'s department to ${empDeptReq.department}")
     }
 
+    @GetMapping("/emp/{companyName}")
+    fun findAllCompEmp(@PathVariable companyName: String): ResponseEntity<Any> {
+        val list = compEmpService.findCompanyByName(companyName).let {
+            if (it == null) return ResponseEntity.badRequest().body("not exist Company")
+            else compEmpService.findAllCompEmp(it?.id!!)
+        }
+
+        return ResponseEntity.ok(list)
+    }
 }

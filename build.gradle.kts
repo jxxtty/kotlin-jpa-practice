@@ -10,7 +10,7 @@ plugins {
 	kotlin("plugin.spring") version kotlinVersion // kotlin("plugin.allopen")을 포함하고 있다
 	kotlin("plugin.jpa") version kotlinVersion // kotlin("plugin.noarg")을 포함하고 있다
 	kotlin("kapt") version "1.3.61" // querydsl 추가
-//	idea
+	idea
 }
 
 group = "com.example"
@@ -45,17 +45,17 @@ dependencies {
 //	setBuildDir("$buildDir")
 //}
 
-sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
-	kotlin.srcDir("$buildDir/generated/source/kapt/main")
-}
-
-//idea {
-//	module {
-//		val kaptMain = file("build/generated/source/kapt/main")
-//		sourceDirs.add(kaptMain)
-//		generatedSourceDirs.add(kaptMain)
-//	}
+//sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+//	kotlin.srcDir("$buildDir/generated/source/kapt/main")
 //}
+
+idea {
+	module {
+		val kaptMain = file("build/generated/source/kapt/main")
+		sourceDirs.add(kaptMain)
+		generatedSourceDirs.add(kaptMain)
+	}
+}
 // querydsl 추가 end ---
 
 // 추가 start ---
