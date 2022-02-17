@@ -14,7 +14,8 @@ class CompanyRepositoryImpl(val jpaQueryFactory: JPAQueryFactory) : CompanyRepos
         return jpaQueryFactory.select(
             QCompEmpRes(
                 company.name,
-                employee.name
+                employee.name,
+                employee.department.stringValue()
             )
         ).from(company)
             .leftJoin(employee).on(company.id.eq(employee.company.id))

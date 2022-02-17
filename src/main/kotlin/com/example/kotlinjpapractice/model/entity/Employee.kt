@@ -1,6 +1,6 @@
 package com.example.kotlinjpapractice.model.entity
 
-import com.example.kotlinjpapractice.model.entity.enum.Department
+import com.example.kotlinjpapractice.model.entity.enums.Department
 import javax.persistence.*
 
 @Entity

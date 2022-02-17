@@ -3,7 +3,7 @@ package com.example.kotlinjpapractice.service
 import com.example.kotlinjpapractice.model.dto.CompEmpRes
 import com.example.kotlinjpapractice.model.entity.Company
 import com.example.kotlinjpapractice.model.entity.Employee
-import com.example.kotlinjpapractice.model.entity.enum.Department
+import com.example.kotlinjpapractice.model.entity.enums.Department
 import com.example.kotlinjpapractice.repository.CompanyRepository
 import com.example.kotlinjpapractice.repository.EmployeeRepository
 import org.springframework.stereotype.Service
