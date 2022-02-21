@@ -13,6 +13,5 @@ enum class ShopHashTagAGE(val hashtagInfo: String) {
 
     companion object {
         fun valueOf(hashtagInfo: String) = ShopHashTagAGE.values().first { it.hashtagInfo == hashtagInfo }
-
     }
 }

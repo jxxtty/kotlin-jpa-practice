@@ -9,6 +9,5 @@ enum class ShopHashTagCATEGORY(val hashtagInfo: String) {
 
     companion object {
         fun valueOf(hashtagInfo: String) = ShopHashTagCATEGORY.values().first { it.hashtagInfo == hashtagInfo }
-
     }
 }

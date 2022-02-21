@@ -8,6 +8,5 @@ enum class ShopHashTagSTYLE(val hashtagInfo: String) {
 
     companion object {
         fun valueOf(hashtagInfo: String) = ShopHashTagSTYLE.values().first { it.hashtagInfo == hashtagInfo }
-
     }
 }
