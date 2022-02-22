@@ -12,11 +12,11 @@ data class Product(
     @JoinColumn(name = "shopping_mall_id", nullable = false)
     val shoppingMall: ShoppingMall,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "thumbnail_image_id", nullable = false)
     val thumbnailImage: ProductImage,
 
-    @OneToOne
+    @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "product_detail_image_id", nullable = false)
     val productDetailImage: ProductImage
 

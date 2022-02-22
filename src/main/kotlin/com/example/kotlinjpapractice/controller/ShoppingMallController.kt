@@ -26,10 +26,6 @@ class ShoppingMallController(
 
         val findBizUser = businessUserService.findByIdReturnEntity(shoppingMallReq.userId)
 
-        println(">>>>>>> ${ShopHashTagSTYLE.valueOf(shoppingMallReq.hashTagSTYLE)}")
-        //println(">>>>>>> ${ShopHashTagSTYLE.valueOf("캠퍼스룩")}")
-//        println(">>>>>>> ${ShopHashTagSTYLE.valueOf(shoppingMallReq.hashTagCATEGORY)}")
-
         val newShoppingMall = ShoppingMall(
             findBizUser,
             ShopCategory.valueOf(shoppingMallReq.shopCategory),
