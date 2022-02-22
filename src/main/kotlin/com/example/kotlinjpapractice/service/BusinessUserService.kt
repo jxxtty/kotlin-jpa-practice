@@ -7,8 +7,16 @@ import org.springframework.stereotype.Service
 @Service
 class BusinessUserService(val businessUserRepository: BusinessUserRepository) {
 
+    fun existUserId(userId: Long): Boolean {
+        return businessUserRepository.existsById(userId)
+    }
+
     fun existLoginId(loginId: String): Boolean {
         return businessUserRepository.existsByLoginId(loginId)
+    }
+
+    fun findByIdReturnEntity(userId: Long): BusinessUser {
+        return businessUserRepository.findById(userId).get()
     }
 
     fun createNewBusinessUser(newBizUser: BusinessUser) {

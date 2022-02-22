@@ -4,12 +4,15 @@ import com.example.kotlinjpapractice.model.entity.enums.ShopCategory
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagAGE
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagCATEGORY
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagSTYLE
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import javax.persistence.*
 
 @Entity
 data class ShoppingMall(
+
+    @OneToOne(cascade = [CascadeType.ALL])
+    @JoinColumn(name = "business_user_id")
+    val businessUser: BusinessUser,
+
     @Enumerated(EnumType.STRING)
     val shopCategory: ShopCategory,
 
