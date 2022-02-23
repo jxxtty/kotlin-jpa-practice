@@ -2,9 +2,7 @@ package com.example.kotlinjpapractice.model.entity
 
 import com.example.kotlinjpapractice.model.entity.enums.OrderStatus
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import javax.persistence.*
 
 @Entity
 class OrderDelivery(
@@ -13,8 +11,11 @@ class OrderDelivery(
     @Enumerated(EnumType.STRING)
     var orderStatus: OrderStatus,
 
-    val sendDate: LocalDateTime?,
+    val sendDate: LocalDateTime? = null,
 
-    val deliveryDate: LocalDateTime?
+    val deliveryDate: LocalDateTime? = null,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    val customerUser: CustomerUser
 ) : AutoEntity() {
 }

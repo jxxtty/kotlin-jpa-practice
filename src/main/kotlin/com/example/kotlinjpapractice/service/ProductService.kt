@@ -26,4 +26,16 @@ class ProductService(
     fun createProduct(product: Product) {
         productRepository.save(product)
     }
+
+    fun existsById(productId: Long): Boolean {
+        return productRepository.existsById(productId)
+    }
+
+    fun findByIdReturnProduct(productId: Long): Product {
+        return productRepository.findById(productId).get()
+    }
+
+    fun findByIdReturnProductOption(productOptionId: Long): ProductOption {
+        return productOptionRepository.findById(productOptionId).get()
+    }
 }

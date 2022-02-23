@@ -16,7 +16,15 @@ class ProductOrderDelivery(
 
     var orderAmount: Int,
 
-    val orderDate: LocalDateTime = LocalDateTime.now()
+    val orderDate: LocalDateTime = LocalDateTime.now(),
+
+    @OneToOne
+    @JoinColumn(name = "product_option_size_id")
+    var optionSize: ProductOption,
+
+    @OneToOne
+    @JoinColumn(name = "product_option_color_id")
+    var optionColor: ProductOption
 ) : AutoEntity() {
 
 

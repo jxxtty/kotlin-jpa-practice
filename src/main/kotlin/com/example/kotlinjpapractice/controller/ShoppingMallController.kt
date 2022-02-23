@@ -6,7 +6,7 @@ import com.example.kotlinjpapractice.model.entity.enums.ShopCategory
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagAGE
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagCATEGORY
 import com.example.kotlinjpapractice.model.entity.enums.ShopHashTagSTYLE
-import com.example.kotlinjpapractice.service.BusinessUserService
+import com.example.kotlinjpapractice.service.UserService
 import com.example.kotlinjpapractice.service.ShoppingMallService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class ShoppingMallController(
     val shoppingMallService: ShoppingMallService,
-    val businessUserService: BusinessUserService
+    val businessUserService: UserService
     ) {
 
     @PostMapping("/shop")
     fun createNewShoppingMall(@RequestBody shoppingMallReq: ShoppingMallReq): ResponseEntity<String> {
         // 들어온 사업자계정 id 확인
-        if(!businessUserService.existUserId(shoppingMallReq.userId)) return ResponseEntity.badRequest().body("사용자 계정을 찾을 수 없습니다.")
+        if(!businessUserService.existsBizUserId(shoppingMallReq.userId)) return ResponseEntity.badRequest().body("사용자 계정을 찾을 수 없습니다.")
 
-        val findBizUser = businessUserService.findByIdReturnEntity(shoppingMallReq.userId)
+        val findBizUser = businessUserService.findByIdReturnBizUser(shoppingMallReq.userId)
 
         val newShoppingMall = ShoppingMall(
             findBizUser,

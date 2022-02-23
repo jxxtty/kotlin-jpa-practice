@@ -1,4 +1,4 @@
-package com.example.kotlinjpapractice.model.dto.businessUser
+package com.example.kotlinjpapractice.model.dto.user
 
 data class BizUserReq(
     var loginId: String,
