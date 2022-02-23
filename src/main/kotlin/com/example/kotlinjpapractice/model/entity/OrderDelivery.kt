@@ -11,11 +11,21 @@ class OrderDelivery(
     @Enumerated(EnumType.STRING)
     var orderStatus: OrderStatus,
 
-    val sendDate: LocalDateTime? = null,
+    var sendDate: LocalDateTime? = null,
 
-    val deliveryDate: LocalDateTime? = null,
+    var deliveryDate: LocalDateTime? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     val customerUser: CustomerUser
 ) : AutoEntity() {
+
+    fun sendProduct() {
+        this.sendDate = LocalDateTime.now()
+        this.orderStatus = OrderStatus.FINISH_SEND
+    }
+
+    fun deliveryProduct() {
+        this.deliveryDate = LocalDateTime.now()
+        this.orderStatus = OrderStatus.FINISH_DELIVERY
+    }
 }

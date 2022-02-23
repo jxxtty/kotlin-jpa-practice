@@ -1,5 +1,6 @@
 package com.example.kotlinjpapractice.controller
 
+import com.example.kotlinjpapractice.model.dto.IdReq
 import com.example.kotlinjpapractice.model.dto.order.OrderDeliveryReq
 import com.example.kotlinjpapractice.model.entity.OrderDelivery
 import com.example.kotlinjpapractice.model.entity.ProductOrderDelivery
@@ -8,6 +9,7 @@ import com.example.kotlinjpapractice.service.OrderDeliveryService
 import com.example.kotlinjpapractice.service.ProductService
 import com.example.kotlinjpapractice.service.UserService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -29,7 +31,7 @@ class OrderDeliveryController(
 
         // order delivery 생성
         val newOrder = OrderDelivery(
-            orderNum = "123456789",
+            orderNum = "123456789", // TODO : 주문번호 생성 로직 추가하기
             orderStatus = OrderStatus.RECEIVE_ORDER,
             customerUser = findCustomerUser
         )
@@ -57,5 +59,25 @@ class OrderDeliveryController(
         }
 
         return ResponseEntity.ok().body("주문 생성 완료")
+    }
+
+
+    @PatchMapping("/order/send")
+    fun sendProduct(@RequestBody idReq: IdReq): ResponseEntity<String> {
+        if(!orderDeliveryService.existsOrderDelivery(idReq.id)) return ResponseEntity.badRequest().body("주문정보를 찾을 수 없습니다.")
+        val findOrderDelivery = orderDeliveryService.findByIdReturnOrderDelivery(idReq.id)
+        orderDeliveryService.sendProduct(findOrderDelivery)
+
+        return ResponseEntity.ok().body("주문 발송 처리 완료")
+    }
+
+    @PatchMapping("/order/delivery")
+    fun deliveryProduct(@RequestBody idReq: IdReq): ResponseEntity<String> {
+        if(!orderDeliveryService.existsOrderDelivery(idReq.id)) return ResponseEntity.badRequest().body("주문정보를 찾을 수 없습니다.")
+        val findOrderDelivery = orderDeliveryService.findByIdReturnOrderDelivery(idReq.id)
+
+        orderDeliveryService.deliveryProduct(findOrderDelivery)
+
+        return ResponseEntity.ok().body("주문 배송 완료 처리")
     }
 }
