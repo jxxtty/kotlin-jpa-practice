@@ -2,6 +2,7 @@ package com.example.kotlinjpapractice.controller
 
 import com.example.kotlinjpapractice.model.dto.IdReq
 import com.example.kotlinjpapractice.model.dto.order.OrderDeliveryReq
+import com.example.kotlinjpapractice.model.dto.order.OrderRes
 import com.example.kotlinjpapractice.model.entity.OrderDelivery
 import com.example.kotlinjpapractice.model.entity.ProductOrderDelivery
 import com.example.kotlinjpapractice.model.entity.enums.OrderStatus
@@ -9,10 +10,7 @@ import com.example.kotlinjpapractice.service.OrderDeliveryService
 import com.example.kotlinjpapractice.service.ProductService
 import com.example.kotlinjpapractice.service.UserService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.lang.StringBuilder
 import java.time.LocalDateTime
 
@@ -79,5 +77,28 @@ class OrderDeliveryController(
         orderDeliveryService.deliveryProduct(findOrderDelivery)
 
         return ResponseEntity.ok().body("주문 배송 완료 처리")
+    }
+
+    @GetMapping("/order/{orderNum}")
+    fun findOrderInfo(@PathVariable orderNum: String): ResponseEntity<OrderRes> {
+        val findOrderDelivery = orderDeliveryService.findByOrderNum(orderNum).let{
+            if(it == null) throw Exception("cannot find order info - invalid orderNum")
+            else it!!
+        }
+
+        val orderProductList = orderDeliveryService.findOrderProductList(findOrderDelivery.id!!).let {
+            if(it.isEmpty()) throw Exception("cannot find order product list - custom query not working")
+            else it!!
+        }
+
+        val findOrder = orderDeliveryService.findOrderAll(findOrderDelivery.id!!, findOrderDelivery.customerUser.id!!).let {
+            if(it == null) throw Exception("cannot find order info - custom query not working")
+            else it!!
+        }
+
+        findOrder.orderProductList = orderProductList
+
+
+        return ResponseEntity.ok().body(findOrder)
     }
 }
