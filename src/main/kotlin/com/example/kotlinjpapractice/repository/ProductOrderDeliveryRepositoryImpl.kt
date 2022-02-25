@@ -1,9 +1,6 @@
 package com.example.kotlinjpapractice.repository
 
-import com.example.kotlinjpapractice.model.dto.order.OrderProductListRes
-import com.example.kotlinjpapractice.model.dto.order.OrderRes
-import com.example.kotlinjpapractice.model.dto.order.QOrderProductListRes
-import com.example.kotlinjpapractice.model.dto.order.QOrderRes
+import com.example.kotlinjpapractice.model.dto.order.*
 import com.example.kotlinjpapractice.model.entity.*
 import com.example.kotlinjpapractice.model.entity.QCustomerUser.*
 import com.example.kotlinjpapractice.model.entity.QOrderDelivery.*
@@ -38,10 +35,10 @@ class ProductOrderDeliveryRepositoryImpl(
             .fetch()
     }
 
-    override fun findOrderAll(orderDeliveryId: Long, customerId: Long): OrderRes? {
+    override fun findOrderAllForCustomer(orderDeliveryId: Long, customerId: Long): CustomerOrderRes? {
 
         return jpaQueryFactory.select(
-                QOrderRes(
+                QCustomerOrderRes(
                     orderDelivery.orderNum,
                     customerUser.username,
                     customerUser.loginId,

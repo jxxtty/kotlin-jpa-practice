@@ -2,7 +2,7 @@ package com.example.kotlinjpapractice.controller
 
 import com.example.kotlinjpapractice.model.dto.IdReq
 import com.example.kotlinjpapractice.model.dto.order.OrderDeliveryReq
-import com.example.kotlinjpapractice.model.dto.order.OrderRes
+import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
 import com.example.kotlinjpapractice.model.entity.OrderDelivery
 import com.example.kotlinjpapractice.model.entity.ProductOrderDelivery
 import com.example.kotlinjpapractice.model.entity.enums.OrderStatus
@@ -11,7 +11,6 @@ import com.example.kotlinjpapractice.service.ProductService
 import com.example.kotlinjpapractice.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.lang.StringBuilder
 import java.time.LocalDateTime
 
 @RestController
@@ -80,25 +79,22 @@ class OrderDeliveryController(
     }
 
     @GetMapping("/order/{orderNum}")
-    fun findOrderInfo(@PathVariable orderNum: String): ResponseEntity<OrderRes> {
-        val findOrderDelivery = orderDeliveryService.findByOrderNum(orderNum).let{
-            if(it == null) throw Exception("cannot find order info - invalid orderNum")
-            else it!!
+    fun findOrderForCustomer(@PathVariable orderNum: String): ResponseEntity<CustomerOrderRes> {
+        val findOrderDelivery = orderDeliveryService.findByOrderNum(orderNum)
+
+        val orderProductList = orderDeliveryService.findOrderProductList(findOrderDelivery.id!!).ifEmpty {
+            throw Exception("cannot find order product list - custom query not working")
         }
 
-        val orderProductList = orderDeliveryService.findOrderProductList(findOrderDelivery.id!!).let {
-            if(it.isEmpty()) throw Exception("cannot find order product list - custom query not working")
-            else it!!
-        }
-
-        val findOrder = orderDeliveryService.findOrderAll(findOrderDelivery.id!!, findOrderDelivery.customerUser.id!!).let {
-            if(it == null) throw Exception("cannot find order info - custom query not working")
-            else it!!
-        }
+        val findOrder = orderDeliveryService.findOrderAll(findOrderDelivery.id!!, findOrderDelivery.customerUser.id!!)?:throw Exception("cannot find order info - custom query not working")
 
         findOrder.orderProductList = orderProductList
 
-
         return ResponseEntity.ok().body(findOrder)
+    }
+
+    @GetMapping("/order")
+    fun findOrderForBiz() {
+
     }
 }
