@@ -1,5 +1,6 @@
 package com.example.kotlinjpapractice.service
 
+import com.example.kotlinjpapractice.model.dto.order.BizOrderListRes
 import com.example.kotlinjpapractice.model.dto.order.OrderProductListRes
 import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
 import com.example.kotlinjpapractice.model.entity.OrderDelivery
@@ -38,6 +39,11 @@ class OrderDeliveryService(
     fun findOrderProductList(orderDeliveryId: Long): List<OrderProductListRes> {
         return productOrderDeliveryRepository.findOrderProductList(orderDeliveryId)
     }
+
+    fun findOrderListForBizUser(bizUserId: Long): List<BizOrderListRes> {
+        TODO()
+    }
+
 
 
     fun createOrder(orderDelivery: OrderDelivery) {

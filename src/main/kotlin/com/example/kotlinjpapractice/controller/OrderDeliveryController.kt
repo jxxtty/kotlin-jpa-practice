@@ -1,6 +1,7 @@
 package com.example.kotlinjpapractice.controller
 
 import com.example.kotlinjpapractice.model.dto.IdReq
+import com.example.kotlinjpapractice.model.dto.order.BizOrderListRes
 import com.example.kotlinjpapractice.model.dto.order.OrderDeliveryReq
 import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
 import com.example.kotlinjpapractice.model.entity.OrderDelivery
@@ -84,6 +85,7 @@ class OrderDeliveryController(
 
         val orderProductList = orderDeliveryService.findOrderProductList(findOrderDelivery.id!!).ifEmpty {
             throw Exception("cannot find order product list - custom query not working")
+            TODO("ResponseEntity로 예외처리하는 방법 생각해보기")
         }
 
         val findOrder = orderDeliveryService.findOrderAll(findOrderDelivery.id!!, findOrderDelivery.customerUser.id!!)?:throw Exception("cannot find order info - custom query not working")
@@ -93,8 +95,14 @@ class OrderDeliveryController(
         return ResponseEntity.ok().body(findOrder)
     }
 
-    @GetMapping("/order")
-    fun findOrderForBiz() {
+    @GetMapping("/order/{bizUserId}")
+    fun findOrderListForBiz(@PathVariable bizUserId: Long): ResponseEntity<List<BizOrderListRes>> {
+        // 사업자 회원인지 확인
+        if(!userService.existsBizUserId(bizUserId)) throw IllegalArgumentException("유효하지 않은 사업자 계정 입니다.")
 
+        // 해당 사업자의 쇼핑몰에 접수된 주문건 list 불러오기
+        val orderList = orderDeliveryService.findOrderListForBizUser(bizUserId)
+
+        return ResponseEntity.ok(orderList)
     }
 }
