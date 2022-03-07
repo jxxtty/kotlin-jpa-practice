@@ -18,4 +18,8 @@ class ShoppingMallService(val shoppingMallRepository: ShoppingMallRepository) {
     fun findByIdReturnEntity(shopId: Long): ShoppingMall {
         return shoppingMallRepository.findById(shopId).get()
     }
+
+    fun findByBizUserIdReturnEntity(bizUserId: Long): ShoppingMall {
+        return shoppingMallRepository.findByBusinessUserId(bizUserId)?:throw Exception("can not find shopping mall")
+    }
 }

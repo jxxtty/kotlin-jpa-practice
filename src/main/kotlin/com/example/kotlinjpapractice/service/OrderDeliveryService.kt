@@ -26,10 +26,7 @@ class OrderDeliveryService(
     }
 
     fun findByOrderNum(orderNum: String): OrderDelivery {
-        return orderDeliveryRepository.findByOrderNum(orderNum).let {
-            if(it == null) throw Exception("cannot find orderDelivery")
-            else it!!
-        }
+        return orderDeliveryRepository.findByOrderNum(orderNum)?:throw Exception("cannot find orderDelivery")
     }
 
     fun findOrderAll(orderDeliveryId: Long, customerId: Long): CustomerOrderRes? {
@@ -40,8 +37,8 @@ class OrderDeliveryService(
         return productOrderDeliveryRepository.findOrderProductList(orderDeliveryId)
     }
 
-    fun findOrderListForBizUser(bizUserId: Long): List<BizOrderListRes> {
-        TODO()
+    fun findOrderListForBizUser(shopId: Long): List<BizOrderListRes> {
+        return productOrderDeliveryRepository.findOrderListForBizUser(shopId)
     }
 
 

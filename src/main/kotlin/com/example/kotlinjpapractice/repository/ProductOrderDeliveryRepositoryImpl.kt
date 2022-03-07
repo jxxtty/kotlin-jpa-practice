@@ -49,4 +49,21 @@ class ProductOrderDeliveryRepositoryImpl(
             .where(orderDelivery.id.eq(orderDeliveryId))
             .fetchOne()
     }
+
+
+    override fun findOrderListForBizUser(shopId: Long): List<BizOrderListRes> {
+        return jpaQueryFactory.select(
+            QBizOrderListRes(
+                orderDelivery.orderNum,
+                customerUser.username,
+                orderDelivery.orderStatus.stringValue()
+            )
+        ).distinct().from(productOrderDelivery) // distinct() 중복제거
+            .join(orderDelivery).on(orderDelivery.id.eq(productOrderDelivery.orderDelivery.id))
+            .join(customerUser).on(customerUser.id.eq(orderDelivery.customerUser.id))
+            .join(product).on(product.id.eq(productOrderDelivery.product.id))
+            .where(product.shoppingMall.id.eq(shopId))
+            .fetch()
+
+    }
 }

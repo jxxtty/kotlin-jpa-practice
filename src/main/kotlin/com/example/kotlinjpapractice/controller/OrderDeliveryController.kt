@@ -9,6 +9,7 @@ import com.example.kotlinjpapractice.model.entity.ProductOrderDelivery
 import com.example.kotlinjpapractice.model.entity.enums.OrderStatus
 import com.example.kotlinjpapractice.service.OrderDeliveryService
 import com.example.kotlinjpapractice.service.ProductService
+import com.example.kotlinjpapractice.service.ShoppingMallService
 import com.example.kotlinjpapractice.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,7 +19,8 @@ import java.time.LocalDateTime
 class OrderDeliveryController(
     val orderDeliveryService: OrderDeliveryService,
     val userService: UserService,
-    val productService: ProductService
+    val productService: ProductService,
+    val shoppingMallService: ShoppingMallService
 ) {
 
     @PostMapping("/order")
@@ -85,7 +87,7 @@ class OrderDeliveryController(
 
         val orderProductList = orderDeliveryService.findOrderProductList(findOrderDelivery.id!!).ifEmpty {
             throw Exception("cannot find order product list - custom query not working")
-            TODO("ResponseEntity로 예외처리하는 방법 생각해보기")
+            // ResponseEntity로 예외처리하는 방법 생각해보기
         }
 
         val findOrder = orderDeliveryService.findOrderAll(findOrderDelivery.id!!, findOrderDelivery.customerUser.id!!)?:throw Exception("cannot find order info - custom query not working")
@@ -95,13 +97,18 @@ class OrderDeliveryController(
         return ResponseEntity.ok().body(findOrder)
     }
 
-    @GetMapping("/order/{bizUserId}")
+    @GetMapping("/biz-order/{bizUserId}")
     fun findOrderListForBiz(@PathVariable bizUserId: Long): ResponseEntity<List<BizOrderListRes>> {
         // 사업자 회원인지 확인
         if(!userService.existsBizUserId(bizUserId)) throw IllegalArgumentException("유효하지 않은 사업자 계정 입니다.")
 
+        // 사업자회원의 쇼핑몰 아이디 가져오기
+        val findShoppingMall = shoppingMallService.findByBizUserIdReturnEntity(bizUserId)
+
         // 해당 사업자의 쇼핑몰에 접수된 주문건 list 불러오기
-        val orderList = orderDeliveryService.findOrderListForBizUser(bizUserId)
+        val orderList = orderDeliveryService.findOrderListForBizUser(findShoppingMall.id!!).ifEmpty {
+            throw Exception("order List is Empty")
+        }
 
         return ResponseEntity.ok(orderList)
     }
