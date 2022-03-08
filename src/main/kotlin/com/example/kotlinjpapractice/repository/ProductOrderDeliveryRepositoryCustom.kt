@@ -1,5 +1,6 @@
 package com.example.kotlinjpapractice.repository
 
+import com.example.kotlinjpapractice.model.dto.order.BizOrderDetailRes
 import com.example.kotlinjpapractice.model.dto.order.BizOrderListRes
 import com.example.kotlinjpapractice.model.dto.order.OrderProductListRes
 import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
@@ -14,4 +15,8 @@ interface ProductOrderDeliveryRepositoryCustom {
 
     // for Biz User
     fun findOrderListForBizUser(shopId: Long): List<BizOrderListRes>
+
+    fun findOrderProductListForBizUser(orderNum: String): List<OrderProductListRes>
+
+    fun findOrderDetailForBizUser(orderNum: String): BizOrderDetailRes?
 }

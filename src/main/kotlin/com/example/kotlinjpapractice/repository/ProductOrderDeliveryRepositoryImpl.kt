@@ -16,6 +16,8 @@ class ProductOrderDeliveryRepositoryImpl(
     private val sizeOption = QProductOption("sizeOption")
     private val colorOption = QProductOption("colorOption")
 
+    // --------------------------- for customerUser --------------------------------
+
     override fun findOrderProductList(orderDeliveryId: Long): List<OrderProductListRes> {
         return jpaQueryFactory.select(
                 QOrderProductListRes(
@@ -51,19 +53,57 @@ class ProductOrderDeliveryRepositoryImpl(
     }
 
 
+    // --------------------------- for bizUser --------------------------------
+
     override fun findOrderListForBizUser(shopId: Long): List<BizOrderListRes> {
         return jpaQueryFactory.select(
-            QBizOrderListRes(
-                orderDelivery.orderNum,
-                customerUser.username,
-                orderDelivery.orderStatus.stringValue()
-            )
-        ).distinct().from(productOrderDelivery) // distinct() 중복제거
-            .join(orderDelivery).on(orderDelivery.id.eq(productOrderDelivery.orderDelivery.id))
-            .join(customerUser).on(customerUser.id.eq(orderDelivery.customerUser.id))
-            .join(product).on(product.id.eq(productOrderDelivery.product.id))
+                QBizOrderListRes(
+                    orderDelivery.orderNum,
+                    customerUser.username,
+                    orderDelivery.orderStatus.stringValue()
+                )
+            ).distinct().from(productOrderDelivery) // distinct() 중복제거
+            .leftJoin(orderDelivery).on(orderDelivery.id.eq(productOrderDelivery.orderDelivery.id))
+            .leftJoin(customerUser).on(customerUser.id.eq(orderDelivery.customerUser.id))
+            .leftJoin(product).on(product.id.eq(productOrderDelivery.product.id))
             .where(product.shoppingMall.id.eq(shopId))
             .fetch()
+
+    }
+
+    override fun findOrderProductListForBizUser(orderNum: String): List<OrderProductListRes> {
+        return jpaQueryFactory.select(
+                QOrderProductListRes(
+                    productImage.path,
+                    product.name,
+                    sizeOption.optionName,
+                    colorOption.optionName,
+                    productOrderDelivery.orderAmount,
+                    product.price
+                )
+            ).from(productOrderDelivery)
+            .leftJoin(product).on(productOrderDelivery.product.id.eq(product.id))
+            .leftJoin(sizeOption).on(sizeOption.id.eq(productOrderDelivery.optionSize.id))
+            .leftJoin(colorOption).on(colorOption.id.eq(productOrderDelivery.optionColor.id))
+            .leftJoin(productImage).on(productImage.id.eq(product.thumbnailImage.id))
+            .leftJoin(orderDelivery).on(productOrderDelivery.orderDelivery.id.eq(orderDelivery.id))
+            .where(orderDelivery.orderNum.eq(orderNum))
+            .fetch()
+    }
+
+    override fun findOrderDetailForBizUser(orderNum: String): BizOrderDetailRes? {
+        return jpaQueryFactory.select(
+            QBizOrderDetailRes(
+                orderDelivery.orderNum,
+                orderDelivery.orderStatus.stringValue(),
+                customerUser.username,
+                customerUser.loginId,
+                customerUser.address
+            )
+        ).from(orderDelivery)
+            .leftJoin(customerUser).on(orderDelivery.customerUser.id.eq(customerUser.id))
+            .where(orderDelivery.orderNum.eq(orderNum))
+            .fetchOne()
 
     }
 }

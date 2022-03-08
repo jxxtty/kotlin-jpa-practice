@@ -1,6 +1,7 @@
 package com.example.kotlinjpapractice.controller
 
 import com.example.kotlinjpapractice.model.dto.IdReq
+import com.example.kotlinjpapractice.model.dto.order.BizOrderDetailRes
 import com.example.kotlinjpapractice.model.dto.order.BizOrderListRes
 import com.example.kotlinjpapractice.model.dto.order.OrderDeliveryReq
 import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
@@ -111,5 +112,20 @@ class OrderDeliveryController(
         }
 
         return ResponseEntity.ok(orderList)
+    }
+
+    @GetMapping("/biz-order/{bizUserId}/{orderNum}")
+    fun findOrderDetailForBiz(@PathVariable bizUserId: Long, @PathVariable orderNum: String): ResponseEntity<BizOrderDetailRes> {
+        // 사업자 회원인지 확인
+        if(!userService.existsBizUserId(bizUserId)) throw IllegalArgumentException("유효하지 않은 사업자 계정 입니다.")
+
+        // 해당 주문번호에 대한 상세내용 가져오기
+        // 1) 주문목록 리스트 불러오기
+        val findProductList = orderDeliveryService.findOrderProductListForBizUser(orderNum)
+
+        val findOrderDetail = orderDeliveryService.findOrderDetailForBizUser(orderNum)
+        findOrderDetail.orderProductList = findProductList
+
+        return ResponseEntity.ok().body(findOrderDetail)
     }
 }

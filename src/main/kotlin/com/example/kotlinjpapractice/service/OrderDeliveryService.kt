@@ -1,5 +1,6 @@
 package com.example.kotlinjpapractice.service
 
+import com.example.kotlinjpapractice.model.dto.order.BizOrderDetailRes
 import com.example.kotlinjpapractice.model.dto.order.BizOrderListRes
 import com.example.kotlinjpapractice.model.dto.order.OrderProductListRes
 import com.example.kotlinjpapractice.model.dto.order.CustomerOrderRes
@@ -41,6 +42,16 @@ class OrderDeliveryService(
         return productOrderDeliveryRepository.findOrderListForBizUser(shopId)
     }
 
+
+    fun findOrderProductListForBizUser(orderNum: String): List<OrderProductListRes> {
+        return productOrderDeliveryRepository.findOrderProductListForBizUser(orderNum).ifEmpty {
+            throw Exception("can not find order Product List (for BizUser)")
+        }
+    }
+
+    fun findOrderDetailForBizUser(orderNum: String): BizOrderDetailRes {
+        return productOrderDeliveryRepository.findOrderDetailForBizUser(orderNum)?:throw Exception("can not find order detail (for BizUser)")
+    }
 
 
     fun createOrder(orderDelivery: OrderDelivery) {

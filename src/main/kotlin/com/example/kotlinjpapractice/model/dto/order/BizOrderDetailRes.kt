@@ -4,6 +4,7 @@ import com.querydsl.core.annotations.QueryProjection
 
 data class BizOrderDetailRes @QueryProjection constructor(
     val orderNum: String,
+    val orderStatus: String,
 
     val customerName: String,
     val customerLoginId: String,
