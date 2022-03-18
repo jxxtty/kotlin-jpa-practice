@@ -82,25 +82,30 @@ class ProductOrderDeliveryRepositoryImpl(
                     product.price
                 )
             ).from(productOrderDelivery)
-            .leftJoin(product).on(productOrderDelivery.product.id.eq(product.id))
-            .leftJoin(sizeOption).on(sizeOption.id.eq(productOrderDelivery.optionSize.id))
-            .leftJoin(colorOption).on(colorOption.id.eq(productOrderDelivery.optionColor.id))
-            .leftJoin(productImage).on(productImage.id.eq(product.thumbnailImage.id))
-            .leftJoin(orderDelivery).on(productOrderDelivery.orderDelivery.id.eq(orderDelivery.id))
+            .leftJoin(productOrderDelivery.product, product)
+            .leftJoin(productOrderDelivery.optionSize, sizeOption)
+            .leftJoin(productOrderDelivery.optionColor, colorOption)
+            .leftJoin(product.thumbnailImage, productImage)
+            .leftJoin(productOrderDelivery.orderDelivery, orderDelivery)
+//            .leftJoin(product).on(productOrderDelivery.product.id.eq(product.id))
+//            .leftJoin(sizeOption).on(sizeOption.id.eq(productOrderDelivery.optionSize.id))
+//            .leftJoin(colorOption).on(colorOption.id.eq(productOrderDelivery.optionColor.id))
+//            .leftJoin(productImage).on(productImage.id.eq(product.thumbnailImage.id))
+//            .leftJoin(orderDelivery).on(productOrderDelivery.orderDelivery.id.eq(orderDelivery.id))
             .where(orderDelivery.orderNum.eq(orderNum))
             .fetch()
     }
 
     override fun findOrderDetailForBizUser(orderNum: String): BizOrderDetailRes? {
         return jpaQueryFactory.select(
-            QBizOrderDetailRes(
-                orderDelivery.orderNum,
-                orderDelivery.orderStatus.stringValue(),
-                customerUser.username,
-                customerUser.loginId,
-                customerUser.address
-            )
-        ).from(orderDelivery)
+                QBizOrderDetailRes(
+                    orderDelivery.orderNum,
+                    orderDelivery.orderStatus.stringValue(),
+                    customerUser.username,
+                    customerUser.loginId,
+                    customerUser.address
+                )
+            ).from(orderDelivery)
             .leftJoin(customerUser).on(orderDelivery.customerUser.id.eq(customerUser.id))
             .where(orderDelivery.orderNum.eq(orderNum))
             .fetchOne()

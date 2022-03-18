@@ -82,6 +82,7 @@ class OrderDeliveryController(
         return ResponseEntity.ok().body("주문 배송 완료 처리")
     }
 
+    // 고객용 - 본인 주문내역 확인
     @GetMapping("/order/{orderNum}")
     fun findOrderForCustomer(@PathVariable orderNum: String): ResponseEntity<CustomerOrderRes> {
         val findOrderDelivery = orderDeliveryService.findByOrderNum(orderNum)
@@ -98,6 +99,7 @@ class OrderDeliveryController(
         return ResponseEntity.ok().body(findOrder)
     }
 
+    // 사업자 회원용 - 본인 쇼핑몰에 들어온 주문내역 확인
     @GetMapping("/biz-order/{bizUserId}")
     fun findOrderListForBiz(@PathVariable bizUserId: Long): ResponseEntity<List<BizOrderListRes>> {
         // 사업자 회원인지 확인
