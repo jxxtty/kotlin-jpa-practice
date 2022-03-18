@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Configuration
 import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
+// jenkins 테스트를 위한 주석추가
+
+
 @Configuration
 class QuerydslConfig(
     @PersistenceContext val entityManager: EntityManager
