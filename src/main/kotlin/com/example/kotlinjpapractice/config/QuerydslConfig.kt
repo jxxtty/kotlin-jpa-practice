@@ -7,6 +7,7 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 // jenkins 테스트를 위한 주석추가
+// 2차 - jenkins 테스트
 
 
 @Configuration
