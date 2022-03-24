@@ -10,22 +10,22 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.test.context.TestConstructor
 import javax.transaction.Transactional
 
-@SpringBootTest
-@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+//@SpringBootTest
+//@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class EmployeeTest(val employeeRepository: EmployeeRepository, val companyRepository: CompanyRepository) {
 
-    @Transactional
-    @Test
-    internal fun findById() {
-
-        println("employee 조회 전")
-        val employee = employeeRepository.findByIdOrNull(1L)
-        println("employee 조회 후 employee 내용에 접근 : ${employee?.name}")
-        assertEquals(employee!!.name, "one")
-
-        println("company 데이터에 접근 전")
-        assertEquals(employee.company!!.name, "first")
-        println("company 데이터에 접근 후--")
-
-    }
+//    @Transactional
+//    @Test
+//    internal fun findById() {
+//
+//        println("employee 조회 전")
+//        val employee = employeeRepository.findByIdOrNull(1L)
+//        println("employee 조회 후 employee 내용에 접근 : ${employee?.name}")
+//        assertEquals(employee!!.name, "one")
+//
+//        println("company 데이터에 접근 전")
+//        assertEquals(employee.company!!.name, "first")
+//        println("company 데이터에 접근 후--")
+//
+//    }
 }

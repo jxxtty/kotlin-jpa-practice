@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.5.4"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	id("war") // war 추가
+	war
 
 	val kotlinVersion = "1.5.21"
 
@@ -13,6 +13,7 @@ plugins {
 	kotlin("kapt") version "1.3.61" // querydsl 추가
 	idea
 }
+
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
@@ -80,3 +81,8 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+tasks.getByName<War>("war") {
+	enabled = false
+}
+
