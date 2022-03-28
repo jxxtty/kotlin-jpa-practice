@@ -3,8 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.5.4"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	war
-
+	// war 빌드 추가 start -----
+	//war
+	// war 빌드 추가 end -----
 	val kotlinVersion = "1.5.21"
 
 	kotlin("jvm") version kotlinVersion
@@ -82,7 +83,21 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.getByName<War>("war") {
+
+// war 빌드 추가 start -----
+// plain.war 파일생성을 막아주는 설정
+
+//tasks.getByName<War>("war") {
+//	enabled = false
+//}
+
+// war 빌드 추가 end -----
+
+
+// jar 빌드 추가 start -----
+// plain.jar 파일 생성을 막아주는 설정
+
+tasks.getByName<Jar>("jar") {
 	enabled = false
 }
-
+// jar 빌드 추가 end -----
